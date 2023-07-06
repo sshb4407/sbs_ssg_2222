@@ -1,6 +1,5 @@
 package com.sbs.java.ssg;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +7,9 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
+
+		makeTastArticle();
+
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 0;
@@ -43,11 +45,11 @@ public class Main {
 					continue;
 				}
 
-				System.out.println("번호 | 제목");
+				System.out.println("번호 | 조회 | 제목");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 
-					System.out.printf("%d    |  %s\n", article.id, article.title);
+					System.out.printf("%4d | %4d | %s\n", article.id, article.hit, article.title);
 				}
 			} else if (command.startsWith("article modify ")) {
 				String[] commandBits = command.split(" ");
@@ -68,7 +70,7 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
-				
+
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
@@ -76,7 +78,7 @@ public class Main {
 
 				foundArticle.title = title;
 				foundArticle.body = body;
-				
+
 				System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
 
 			} else if (command.startsWith("article detail ")) {
@@ -99,10 +101,13 @@ public class Main {
 					continue;
 				}
 
+				foundArticle.increseHit();
+
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
+				System.out.printf("조회 : %s\n", foundArticle.hit);
 
 			} else if (command.startsWith("article delete ")) {
 				String[] commandBits = command.split(" ");
@@ -135,6 +140,11 @@ public class Main {
 		sc.close();
 		System.out.println("== 프로그램 끝 ==");
 	}
+
+	private static void makeTastArticle() {
+		// TODO Auto-generated method stub
+
+	}
 }
 
 class Article {
@@ -142,11 +152,17 @@ class Article {
 	String regDate;
 	String title;
 	String body;
+	int hit;
 
 	public Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
+		this.hit = 0;
+	}
+
+	public void increseHit() {
+		hit++;
 	}
 }
