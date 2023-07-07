@@ -1,21 +1,21 @@
 package com.sbs.java.ssg;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.sbs.java.ssg.util.Util;
 import com.sbs.java.ssg.dto.Article;
+import com.sbs.java.ssg.util.Util;
 
 public class App {
-	private static  List<Article> articles;
-	
-	
-	App() {
+	private List<Article> articles;
+
+	public App() {
 		articles = new ArrayList<>();
 	}
-	
-	public static void start() {
+
+	public void start() {
 		System.out.println("== 프로그램 시작 ==");
 
 		makeTastData();
@@ -61,16 +61,7 @@ public class App {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -91,16 +82,7 @@ public class App {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -119,16 +101,7 @@ public class App {
 				String[] commandBits = command.split(" ");
 				int id = Integer.parseInt(commandBits[2]);
 
-				int foundIndex = -1;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundIndex = i;
-						break;
-					}
-				}
+				int foundIndex = getArticleIndexById(id);
 
 				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -147,12 +120,32 @@ public class App {
 		System.out.println("== 프로그램 끝 ==");
 	}
 
-	private static void makeTastData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다.");
+	private int getArticleIndexById(int id) {
+		int i = 0;
+		for ( Article article : articles ) {
+			if (article.id == id) {
+				return i;
+			}
+		}
 		
+		return -1;
+	}
+
+	private Article getArticleById(int id) {
+		int index = getArticleIndexById(id);
+		
+		if ( index != -1 ) {
+			return articles.get(index);
+		}
+		
+		return null;
+	}
+
+	private void makeTastData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
+
 		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 10));
 		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
 		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
 	}
-
 }
