@@ -15,7 +15,8 @@ public class App {
 		MemberController memberController = new MemberController(sc);
 		ArticleController articleController = new ArticleController(sc);
 		
-		articleController.makeTastData();
+		articleController.makeTestData();
+		memberController.makeTestData();
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -46,10 +47,6 @@ public class App {
 				controller = articleController;
 			} else if ( controllerName.equals("member") ) {
 				controller = memberController;
-			}
-			else {
-				System.out.println("존재하지 않는 명령어 입니다.");
-				continue;
 			}
 			
 			controller.doAction(command, actionMethodName);
