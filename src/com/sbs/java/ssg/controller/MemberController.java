@@ -1,6 +1,7 @@
 package com.sbs.java.ssg.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,9 +14,9 @@ public class MemberController extends Controller {
 	private String command;
 	private String actionMethodName;
 	
-	public MemberController(Scanner sc, List<Member> members) {
+	public MemberController(Scanner sc) {
 		this.sc = sc;
-		this.members = members;
+		this.members = new ArrayList<Member>();
 	}
 	
 	public void doAction(String command, String actionMethodName) {

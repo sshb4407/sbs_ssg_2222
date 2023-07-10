@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.sbs.java.ssg.dto.Article;
+import com.sbs.java.ssg.dto.Member;
 import com.sbs.java.ssg.util.Util;
 
 public class ArticleController extends Controller {
@@ -14,9 +15,9 @@ public class ArticleController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	public ArticleController(Scanner sc, List<Article> articles) {
+	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		this.articles = articles;
+		this.articles = new ArrayList<Article>();
 	}
 	
 	public void doAction(String command, String actionMethodName) {
@@ -40,6 +41,14 @@ public class ArticleController extends Controller {
 			doDelete();
 			break;
 		}
+	}
+	
+	public void makeTastData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
+
+		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 10));
+		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
 	}
 
 	private int getArticleIndexById(int id) {
