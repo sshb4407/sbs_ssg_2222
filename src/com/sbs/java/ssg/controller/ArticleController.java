@@ -19,12 +19,12 @@ public class ArticleController extends Controller {
 		this.sc = sc;
 		this.articles = new ArrayList<Article>();
 	}
-	
+
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
-		
-		switch ( actionMethodName ) {
+
+		switch (actionMethodName) {
 		case "list":
 			showList();
 			break;
@@ -32,7 +32,7 @@ public class ArticleController extends Controller {
 			showDetail();
 			break;
 		case "write":
-			if ( isLogined() == false ) {
+			if (isLogined() == false) {
 				System.out.println("로그인 후 이용해주세요.");
 				break;
 			}
@@ -49,19 +49,18 @@ public class ArticleController extends Controller {
 			break;
 		}
 	}
-	
+
 	public void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 
 		articles.add(new Article(1, Util.getNowDateStr(), 1, "제목1", "내용1", 10));
 		articles.add(new Article(2, Util.getNowDateStr(), 2, "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDateStr(), 3, "제목3", "내용3", 33));
+		articles.add(new Article(3, Util.getNowDateStr(), 2, "제목3", "내용3", 33));
 	}
 
 	private int getArticleIndexById(int id) {
 		int i = 0;
 
-		
 		for (Article article : articles) {
 			if (article.id == id) {
 				return i;
@@ -83,7 +82,7 @@ public class ArticleController extends Controller {
 		return null;
 	}
 
-	public void doWrite() {		
+	public void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
@@ -98,7 +97,7 @@ public class ArticleController extends Controller {
 	}
 
 	public void showList() {
- 		if (articles.size() == 0) {
+		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다.");
 			return;
 		}
@@ -162,6 +161,11 @@ public class ArticleController extends Controller {
 			return;
 		}
 
+		if (foundArticle.memberId != loginedMember.id) {
+			System.out.println("권한이 없습니다.");
+			return;
+		}
+
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -177,14 +181,19 @@ public class ArticleController extends Controller {
 		String[] commandBits = command.split(" ");
 		int id = Integer.parseInt(commandBits[2]);
 
-		int foundIndex = getArticleIndexById(id);
+		Article foundArticle = getArticleById(id);
 
-		if (foundIndex == -1) {
+		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
 
-		articles.remove(foundIndex);
+		if (foundArticle.memberId != loginedMember.id) {
+			System.out.println("권한이 없습니다.");
+			return;
+		}
+
+		articles.remove(foundArticle);
 		System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
 	}
 
