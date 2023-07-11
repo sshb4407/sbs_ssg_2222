@@ -25,4 +25,8 @@ public class ArticleService {
 		articleDao.remove(foundArticle);
 	}
 
+	public void write(Article article) {
+		articleDao.write(article);
+	}
+
 }

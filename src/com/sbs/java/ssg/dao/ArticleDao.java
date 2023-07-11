@@ -68,4 +68,8 @@ public class ArticleDao extends Dao {
 		articles.remove(foundArticle);
 	}
 
+	public void write(Article article) {
+		articles.add(article);
+	}
+
 }
