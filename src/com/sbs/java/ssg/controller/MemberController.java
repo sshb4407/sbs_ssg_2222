@@ -1,11 +1,9 @@
 package com.sbs.java.ssg.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.sbs.java.ssg.container.Container;
-import com.sbs.java.ssg.dto.Article;
 import com.sbs.java.ssg.dto.Member;
 import com.sbs.java.ssg.util.Util;
 
