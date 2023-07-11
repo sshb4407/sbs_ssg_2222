@@ -1,6 +1,7 @@
 package com.sbs.java.ssg.dto;
 
 public class Article extends Dto {
+	
 	public String title;
 	public String body;
 	public int hit;
